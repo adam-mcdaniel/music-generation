@@ -20,7 +20,7 @@ Here are some examples of the music generation library in action, some of them s
 The major and minor scales are the most common scales in Western music, and are great for creating melodies and harmonies. The pentatonic scales are also very common, and are great for creating simple and catchy songs. The blues scales are more distinctive and are great for creating a more soulful sound.
 
 <!-- Put links on the names, not in a separate listen link -->
-***Click on the names to listen to the examples!***
+***Click on the links to listen to the examples!***
 <!-- 
 | Major | Examples | Minor | Examples |
 |----------|----------|-------|----------|
