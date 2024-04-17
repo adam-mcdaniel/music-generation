@@ -18,27 +18,28 @@ This repository implements a music generation library in Rust, with the goal of 
 Here are some examples of the music generation library in action, some of them sound pretty cool! I particularly like the chip-tune sound of the square wave. The sawtooth is good for a more aggressive sound, and the sine wave is good for a more mellow sound.
 
 The major and minor scales are the most common scales in Western music, and are great for creating melodies and harmonies. The pentatonic scales are also very common, and are great for creating simple and catchy songs. The blues scales are more distinctive and are great for creating a more soulful sound.
-<!-- 
-| Major | Examples | Minor | Examples |
-|----------|----------|-------|----------|
-| Major Blues Scale | ▹ Chiptune Major Blues <br><audio src="examples/square_major_blues.wav" controls></audio><br> ▹ Sawtooth Major Blues <br><audio src="examples/sawtooth_major_blues.wav" controls></audio><br> ▹ Sine Major Blues <br><audio src="examples/sine_major_blues.wav" controls></audio> | Minor Blues Scale | ▹ Chiptune Minor Blues <br><audio src="examples/square_minor_blues.wav" controls></audio><br> ▹ Sawtooth Minor Blues <br><audio src="examples/sawtooth_minor_blues.wav" controls></audio><br> ▹ Sine Minor Blues <br><audio src="examples/sine_minor_blues.wav" controls></audio> |
-| Major Pentatonic Scale | ▹ Chiptune Major Pentatonic <br><audio src="examples/square_major_pentatonic.wav" controls></audio><br> ▹ Sawtooth Major Pentatonic <br><audio src="examples/sawtooth_major_pentatonic.wav" controls></audio><br> ▹ Sine Major Pentatonic <br><audio src="examples/sine_major_pentatonic.wav" controls></audio> | Minor Pentatonic Scale | ▹ Chiptune Minor Pentatonic <br><audio src="examples/square_minor_pentatonic.wav" controls></audio><br> ▹ Sawtooth Minor Pentatonic <br><audio src="examples/sawtooth_minor_pentatonic.wav" controls></audio><br> ▹ Sine Minor Pentatonic <br><audio src="examples/sine_minor_pentatonic.wav" controls></audio> | -->
 
-<!-- Replace audio players with links -->
+<!-- Put links on the names, not in a separate listen link -->
+***Click on the names to listen to the examples!***
+
 | Major | Examples | Minor | Examples |
 |----------|----------|-------|----------|
-| Major Blues Scale | ▹ Chiptune Major Blues <br>[Listen](examples/square_major_blues.wav)<br> ▹ Sawtooth Major Blues <br>[Listen](examples/sawtooth_major_blues.wav)<br> ▹ Sine Major Blues <br>[Listen](examples/sine_major_blues.wav) | Minor Blues Scale | ▹ Chiptune Minor Blues <br>[Listen](examples/square_minor_blues.wav)<br> ▹ Sawtooth Minor Blues <br>[Listen](examples/sawtooth_minor_blues.wav)<br> ▹ Sine Minor Blues <br>[Listen](examples/sine_minor_blues.wav) |
-| Major Pentatonic Scale | ▹ Chiptune Major Pentatonic <br>[Listen](examples/square_major_pentatonic.wav)<br> ▹ Sawtooth Major Pentatonic <br>[Listen](examples/sawtooth_major_pentatonic.wav)<br> ▹ Sine Major Pentatonic <br>[Listen](examples/sine_major_pentatonic.wav) | Minor Pentatonic Scale | ▹ Chiptune Minor Pentatonic <br>[Listen](examples/square_minor_pentatonic.wav)<br> ▹ Sawtooth Minor Pentatonic <br>[Listen](examples/sawtooth_minor_pentatonic.wav)<br> ▹ Sine Minor Pentatonic <br>[Listen](examples/sine_minor_pentatonic.wav) |
+| Major Blues Scale | ▹ [Chiptune Major Blues](examples/square_major_blues.wav)<br> ▹ [Sawtooth Major Blues](examples/sawtooth_major_blues.wav)<br> ▹ [Sine Major Blues](examples/sine_major_blues.wav) | Minor Blues Scale | ▹ [Chiptune Minor Blues](examples/square_minor_blues.wav)<br> ▹ [Sawtooth Minor Blues](examples/sawtooth_minor_blues.wav)<br> ▹ [Sine Minor Blues](examples/sine_minor_blues.wav) |
+| Major Pentatonic Scale | ▹ [Chiptune Major Pentatonic](examples/square_major_pentatonic.wav)<br> ▹ [Sawtooth Major Pentatonic](examples/sawtooth_major_pentatonic.wav)<br> ▹ [Sine Major Pentatonic](examples/sine_major_pentatonic.wav) | Minor Pentatonic Scale | ▹ [Chiptune Minor Pentatonic](examples/square_minor_pentatonic.wav)<br> ▹ [Sawtooth Minor Pentatonic](examples/sawtooth_minor_pentatonic.wav)<br> ▹ [Sine Minor Pentatonic](examples/sine_minor_pentatonic.wav) |
 
 These examples below are a bit more experimental in their sound due to the nature of the scales. The diminished scale is a bit more dissonant, while the augmented scale is a bit more exotic. They can be used to create some interesting and unique sounds, especially when combined with other scales and chords. They're great for creating a spooky or mysterious atmosphere.
+
+| Diminished | Examples | Augmented | Examples |
+|------------|----------|-----------|----------|
+| Diminished Scale | ▹ [Chiptune Diminished](examples/square_diminished.wav)<br> ▹ [Sawtooth Diminished](examples/sawtooth_diminished.wav)<br> ▹ [Sine Diminished](examples/sine_diminished.wav) | Augmented Scale | ▹ [Chiptune Augmented](examples/square_augmented.wav)<br> ▹ [Sawtooth Augmented](examples/sawtooth_augmented.wav)<br> ▹ [Sine Augmented](examples/sine_augmented.wav) |
 
 <!-- | Diminished | Examples | Augmented | Examples |
 |------------|----------|-----------|----------|
 | Diminished Scale | ▹ Chiptune Diminished <br><audio src="examples/square_diminished.wav" controls></audio><br> ▹ Sawtooth Diminished <br><audio src="examples/sawtooth_diminished.wav" controls></audio><br> ▹ Sine Diminished <br><audio src="examples/sine_diminished.wav" controls></audio> | Augmented Scale | ▹ Chiptune Augmented <br><audio src="examples/square_augmented.wav" controls></audio><br> ▹ Sawtooth Augmented <br><audio src="examples/sawtooth_augmented.wav" controls></audio><br> ▹ Sine Augmented <br><audio src="examples/sine_augmented.wav" controls></audio> | -->
 
-| Diminished | Examples | Augmented | Examples |
+<!-- | Diminished | Examples | Augmented | Examples |
 |------------|----------|-----------|----------|
-| Diminished Scale | ▹ Chiptune Diminished <br>[Listen](examples/square_diminished.wav)<br> ▹ Sawtooth Diminished <br>[Listen](examples/sawtooth_diminished.wav)<br> ▹ Sine Diminished <br>[Listen](examples/sine_diminished.wav) | Augmented Scale | ▹ Chiptune Augmented <br>[Listen](examples/square_augmented.wav)<br> ▹ Sawtooth Augmented <br>[Listen](examples/sawtooth_augmented.wav)<br> ▹ Sine Augmented <br>[Listen](examples/sine_augmented.wav) |
+| Diminished Scale | ▹ Chiptune Diminished <br>[Listen](examples/square_diminished.wav)<br> ▹ Sawtooth Diminished <br>[Listen](examples/sawtooth_diminished.wav)<br> ▹ Sine Diminished <br>[Listen](examples/sine_diminished.wav) | Augmented Scale | ▹ Chiptune Augmented <br>[Listen](examples/square_augmented.wav)<br> ▹ Sawtooth Augmented <br>[Listen](examples/sawtooth_augmented.wav)<br> ▹ Sine Augmented <br>[Listen](examples/sine_augmented.wav) | -->
 
 
 ## Usage
