@@ -83,6 +83,9 @@ This will generate several `.wav` files in the project directory that you can li
 
 Here's an example of how to generate a simple song using the music generation library:
 
+![Major Pentatonic Scale](assets/example.png)
+
+### Code Example
 
 ```rust
 // Import the music generation library and its dependencies
