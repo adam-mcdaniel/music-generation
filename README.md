@@ -85,7 +85,7 @@ Here's an example of how to generate a simple song using the music generation li
 
 ![Major Pentatonic Scale](assets/example.png)
 
-### Code Example
+### Code Snippet Example
 
 Here's the example code as a code snippet you can copy and paste into your project:
 
