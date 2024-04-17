@@ -84,15 +84,6 @@ This will generate several `.wav` files in the project directory that you can li
 Here's an example of how to generate a simple song using the music generation library:
 
 
-<table>
-<tr>
-<th>
-Example Major Pentatonic Song Generation
-</th>
-</tr>
-<tr>
-<td>
-
 ```rust
 // Import the music generation library and its dependencies
 use music_generator::*;
@@ -164,8 +155,6 @@ fn generate_major_pentatonic_song(bpm: f32) -> Song {
     return song
 }
 ```
-</td>
-</table>
 
 ## Author Notes
 
