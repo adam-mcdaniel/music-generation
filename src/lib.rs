@@ -44,6 +44,10 @@ pub enum Scale {
     Octatonic,
     /// The diminished scale is a scale that alternates whole and half steps.
     Diminished,
+    /// The augmented scale is a scale that alternates whole and half steps.
+    Augmented,
+    /// Half whole diminished scale.
+    HalfWholeDiminished,
 }
 
 
@@ -59,6 +63,10 @@ impl Scale {
         }).cycle()
     }
 
+    pub fn note_count(&self) -> usize {
+        self.note_offsets().len()
+    }
+
     fn note_offsets(&self) -> Vec<i32> {
         match self {
             Scale::Major => vec![0, 2, 4, 5, 7, 9, 11],
@@ -71,6 +79,8 @@ impl Scale {
             Scale::Octatonic => vec![0, 2, 3, 5, 6, 8, 9, 11],
             Scale::Diminished => vec![0, 2, 3, 5, 6, 8, 9, 11],
             Scale::WholeTone => vec![0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
+            Scale::HalfWholeDiminished => vec![0, 1, 3, 4, 6, 7, 9, 10],
+            Scale::Augmented => vec![0, 3, 4, 7, 8, 11],
         }
     }
 }
@@ -280,11 +290,40 @@ impl Chord {
         ])
     }
 
+    pub fn major7b9(note: NoteType, octave: u8) -> Chord {
+        Chord::new(&[
+            Note::new(note, octave),
+            Note::new(note.dominant(), octave),
+            Note::new(note + 4, octave),
+            Note::new(note + 7, octave),
+            Note::new(note + 10, octave),
+        ])
+    }
+
+    pub fn major7sharp11(note: NoteType, octave: u8) -> Chord {
+        Chord::new(&[
+            Note::new(note, octave),
+            Note::new(note.dominant(), octave),
+            Note::new(note + 4, octave),
+            Note::new(note + 7, octave),
+            Note::new(note + 11, octave),
+        ])
+    }
+
     pub fn minor7(note: NoteType, octave: u8) -> Chord {
         Chord::new(&[
             Note::new(note, octave),
             Note::new(note + 3, octave),
             Note::new(note + 7, octave),
+            Note::new(note + 10, octave),
+        ])
+    }
+
+    pub fn minor7b5(note: NoteType, octave: u8) -> Chord {
+        Chord::new(&[
+            Note::new(note, octave),
+            Note::new(note + 3, octave),
+            Note::new(note + 6, octave),
             Note::new(note + 10, octave),
         ])
     }

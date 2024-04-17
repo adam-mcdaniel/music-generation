@@ -187,18 +187,85 @@ fn generate_minor_blues(bpm: f32) -> Song {
     generate(chords, Scale::MinorBlues.notes(G).take(12).collect(), bpm)
 }
 
+/// Generate a song using the major pentatonic scale in the key of G!
+fn generate_major_pentatonic_song(bpm: f32) -> Song {
+    // For randomly sampling the G pentatonic iterator
+    let mut rng = rand::thread_rng();
+
+    // A chord progression in the key of G on the 4th octave
+    let chords = vec![
+        Chord::major(G, 4),
+        Chord::major(D, 4),
+        Chord::major(C, 4),
+        Chord::major(G, 4),
+        Chord::major(C, 4),
+        Chord::major(G, 4),
+        Chord::major(D, 4),
+        Chord::major(C, 4),
+    ];
+    // Add a duration of 4 beats to each chord
+    let chords: Vec<_> = chords.iter().map(|chord| chord.with_duration(4.0)).collect();
+
+    // Our melody and harmony notes
+    let mut melody = vec![];
+    let mut harmony = vec![];
+
+    // The scale of notes to choose from
+    let scale = Scale::MajorPentatonic.notes(G).take(12).collect::<Vec<_>>();
+
+    // Each melody note is 1/8th of a beat
+    let note_duration = 0.125;
+    // Generate a melody for each beat in the song
+    for beat in 0..(chords.duration() as u32 * 8) {
+        // Create a random melody note with 1/8th of a beat duration
+        let melody_note_name = scale.choose(&mut rng).unwrap();
+        // Add the note to the melody on the 4th octave and with a duration
+        melody.push(Note::new(*melody_note_name, 4)
+                        .with_duration(note_duration));
+
+        // Create a random harmony note with 1/8th of a beat duration
+        let harmony_note_name = scale.choose(&mut rng).unwrap();
+        // Add the note to the harmony on the 3rd octave and with a duration
+        harmony.push(Note::new(*harmony_note_name, 3)
+                        .with_duration(note_duration));
+    }
+
+    // Create a song with the melody, harmony, chords, and bpm (and opt out of looping the song)
+    let song = Song::new(melody, chords, bpm, false).with_harmony(harmony);
+
+    // The cross fade duration (in seconds) between notes
+    // This will fade in/fade out the notes to prevent popping
+    let note_cross_fade = 0.01;
+    // Save the song to a file
+    song.save(
+        &Path::new("major_pentatonic.wav"),
+        note_cross_fade,
+        // Generate the file using square wave samples (sounds like 8-bit chiptune)
+        &Song::generate_frequency_samples_square_wave
+    ).unwrap();
+
+    // Play the song
+    #[cfg(feature = "playback")]
+    song.play();
+    
+    // Return the song
+    return song
+}
+
+
 fn generate_major_pentatonic(bpm: f32) -> Song {
     // Randomly sample the G pentatonic iterator
     let chords = vec![
-        Chord::major(G, 4).with_duration(4.0),
-        Chord::major(D, 4).with_duration(4.0),
-        Chord::major(C, 4).with_duration(4.0),
-        Chord::major(G, 4).with_duration(4.0),
-        Chord::major(C, 4).with_duration(4.0),
-        Chord::major(G, 4).with_duration(4.0),
-        Chord::major(D, 4).with_duration(4.0),
-        Chord::major(C, 4).with_duration(4.0),
+        Chord::major(G, 4),
+        Chord::major(D, 4),
+        Chord::major(C, 4),
+        Chord::major(G, 4),
+        Chord::major(C, 4),
+        Chord::major(G, 4),
+        Chord::major(D, 4),
+        Chord::major(C, 4),
     ];
+    let chords = chords.iter().map(|chord| chord.with_duration(4.0)).collect();
 
     // let mut melody = vec![];
     
@@ -225,35 +292,68 @@ fn generate_major_pentatonic(bpm: f32) -> Song {
 fn generate_minor_pentatonic(bpm: f32) -> Song {
     // Randomly sample the G pentatonic iterator
     let chords = vec![
-        Chord::minor(G, 4).with_duration(4.0),
-        Chord::minor(D, 4).with_duration(4.0),
-        Chord::minor(C, 4).with_duration(4.0),
-        Chord::minor(G, 4).with_duration(4.0),
-        Chord::minor(C, 4).with_duration(4.0),
-        Chord::minor(G, 4).with_duration(4.0),
-        Chord::minor(D, 4).with_duration(4.0),
-        Chord::minor(C, 4).with_duration(4.0),
+        Chord::minor(G, 4),
+        Chord::minor(D, 4),
+        Chord::minor(C, 4),
+        Chord::minor(G, 4),
+        Chord::minor(C, 4),
+        Chord::minor(G, 4),
+        Chord::minor(D, 4),
+        Chord::minor(C, 4),
     ];
-
-    // let mut melody = vec![];
-    
-    // let scale = Scale::MinorPentatonic.notes(G).take(12).collect::<Vec<_>>();
-    // for beat in 0..(chords.duration() as u32 * 8) {
-    //     // Randomly get a note from the scale
-    //     let note = scale.choose(&mut rng).unwrap();
-
-    //     // melody.push(note.with_duration(0.125));
-    //     melody.push(Note::new(*note, 4).with_duration(0.125));
-    // }
+    let chords = chords.iter().map(|chord| chord.with_duration(4.0)).collect();
 
     generate(chords, Scale::MinorPentatonic.notes(G).take(12).collect(), bpm)
+}
 
-    // Song::new(
-    //     melody,
-    //     chords,
-    //     bpm,
-    //     false
-    // )
+fn generate_diminished(bpm: f32) -> Song {
+    // Randomly sample the G pentatonic iterator
+    let chords = vec![
+        Chord::major7(DSharp, 4),
+        Chord::major7(DSharp, 4),
+        Chord::major7(DSharp, 4),
+        Chord::major7(DSharp, 4),
+        Chord::half_diminished7(C, 4),
+        Chord::minor7(F, 4),
+        Chord::half_diminished7(B, 4),
+        Chord::major7(DSharp, 4),
+        Chord::minor7b5(D, 4),
+        Chord::major7b9(G, 4),
+        Chord::minor7(C, 4),
+        Chord::major7b9(F, 4),
+        Chord::minor7(ASharp, 4),
+        Chord::major7b9(DSharp, 4),
+        Chord::major7(GSharp, 4),
+        Chord::major7sharp11(ASharp, 4),
+        Chord::major7(DSharp, 4),
+        Chord::major7(DSharp, 4),
+    ];
+
+    let chords = chords.iter().map(|chord| chord.with_duration(4.0)).collect();
+    let scale = Scale::Diminished;
+    generate(chords, scale.notes(DSharp).take(scale.note_count() * 5).collect(), bpm)
+}
+
+fn generate_augmented(bpm: f32) -> Song {
+    // Randomly sample the G pentatonic iterator
+    let chords = vec![
+        Chord::augmented(G, 4),
+        Chord::augmented(ASharp, 4),
+        Chord::major7(DSharp, 4),
+        Chord::augmented(D, 4),
+        Chord::augmented(G, 4),
+        Chord::augmented(ASharp, 4),
+        Chord::major7(DSharp, 4),
+        Chord::augmented(D, 4),
+        Chord::augmented(G, 4),
+        Chord::augmented(ASharp, 4),
+        Chord::major7(DSharp, 4),
+        Chord::augmented(D, 4),
+    ];
+
+    let chords = chords.iter().map(|chord| chord.with_duration(4.0)).collect();
+    let scale = Scale::Augmented;
+    generate(chords, scale.notes(G).take(scale.note_count() * 5).collect(), bpm)
 }
 
 fn main() {
@@ -284,7 +384,7 @@ fn main() {
 
 
     // let sample_generator = Song::generate_frequency_samples_square_wave;
-    let cross_fade = 0.013;
+    let cross_fade = 0.01;
 
     let sample_generators: Vec<(Box<dyn Fn(&Song, f32, f32, u16) -> Vec<f32>>, &str)> = vec![
         (Box::new(Song::generate_frequency_samples_sine_wave), "sine"),
@@ -292,16 +392,20 @@ fn main() {
         (Box::new(Song::generate_frequency_samples_square_wave), "square"),
     ];
 
-    let mb = generate_major_blues(bpm);
-    let mp = generate_major_pentatonic(bpm);
-    let mm = generate_minor_pentatonic(bpm);
-    let mmb = generate_minor_blues(bpm);
+    let songs = vec![
+        (generate_augmented(bpm), "augmented"),
+        (generate_diminished(bpm), "diminished"),
+        (generate_major_blues(bpm), "major_blues"),
+        (generate_minor_blues(bpm), "minor_blues"),
+        (generate_major_pentatonic(bpm), "major_pentatonic"),
+        (generate_minor_pentatonic(bpm), "minor_pentatonic"),
+    ];
 
-    for (sample_generator, name) in sample_generators {
-        mb.save(&Path::new(&format!("{}_major_blues.wav", name)), cross_fade, &*sample_generator).unwrap();
-        mmb.save(&Path::new(&format!("{}_minor_blues.wav", name)), cross_fade, &*sample_generator).unwrap();
-        mm.save(&Path::new(&format!("{}_major_pentatonic.wav", name)), cross_fade, &*sample_generator).unwrap();
-        mp.save(&Path::new(&format!("{}_minor_pentatonic.wav", name)), cross_fade, &*sample_generator).unwrap();
+    for (sample_generator, wave_name) in sample_generators {
+        for (song, song_name) in &songs {
+            let song_name = format!("{}_{}", wave_name, song_name);
+            song.save(&Path::new(&format!("{}.wav", song_name)), cross_fade, &sample_generator).unwrap();
+        }
     }
 
     // #[cfg(feature = "playback")]
