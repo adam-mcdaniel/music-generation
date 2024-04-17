@@ -87,6 +87,8 @@ Here's an example of how to generate a simple song using the music generation li
 
 ### Code Example
 
+Here's the example code as a code snippet you can copy and paste into your project:
+
 ```rust
 // Import the music generation library and its dependencies
 use music_generator::*;
