@@ -134,7 +134,8 @@ fn generate_major_pentatonic_song(bpm: f32) -> Song {
                         .with_duration(note_duration));
     }
 
-    // Create a song with the melody, harmony, chords, and bpm (and opt out of looping the song)
+    // Create a song with the melody, harmony, chords, and bpm
+    // (and opt out of looping the song)
     let song = Song::new(melody, chords, bpm, false).with_harmony(harmony);
 
     // The cross fade duration (in seconds) between notes
