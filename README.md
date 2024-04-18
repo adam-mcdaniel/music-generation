@@ -1,6 +1,6 @@
 # music-generation
 
-![Header Image](assets/header.png)
+[![Header Image](assets/header.png)](https://adam-mcdaniel.github.io/music)
 
 This repository implements a music generation library in Rust, with the goal of creating a simple and easy-to-use API for generating music. The library is designed to be flexible and extensible, allowing users to create their own custom music generation algorithms. Additionally, it also supports compilation for the web using WebAssembly, allowing users to generate music directly in the browser.
 
