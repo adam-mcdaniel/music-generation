@@ -357,9 +357,6 @@ fn generate_augmented(bpm: f32) -> Song {
 }
 
 fn main() {
-    println!("Hello, world!");
-
-    // let bpm = 120.0;
     let bpm = 240.0;
 
 
