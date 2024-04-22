@@ -1,6 +1,6 @@
 use music_generator::*;
 use rand::prelude::*;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use NoteType::*;
 
@@ -388,8 +388,8 @@ fn main() {
 
     let sample_generators: Vec<(Box<dyn Fn(&Song, f32, f32, u16) -> Vec<f32>>, &str)> = vec![
         (Box::new(Song::generate_frequency_samples_sine_wave), "sine"),
-        (Box::new(Song::generate_frequency_samples_sawtooth_wave), "sawtooth"),
         (Box::new(Song::generate_frequency_samples_square_wave), "square"),
+        (Box::new(Song::generate_frequency_samples_sawtooth_wave), "sawtooth"),
     ];
 
     let songs = vec![
@@ -404,7 +404,9 @@ fn main() {
     for (sample_generator, wave_name) in sample_generators {
         for (song, song_name) in &songs {
             let song_name = format!("{}_{}", wave_name, song_name);
-            song.save(&Path::new(&format!("{}.wav", song_name)), cross_fade, &sample_generator).unwrap();
+            let path = PathBuf::from(&format!("{}.wav", song_name));
+            song.save(&path, cross_fade, &sample_generator).unwrap();
+            println!("Saved {}", path.display())
         }
     }
 
