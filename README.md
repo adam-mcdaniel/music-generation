@@ -6,7 +6,7 @@ This repository implements a music generation library in Rust, with the goal of 
 
 ## Features
 
-- Generate `.wav` files from custom music generation algorithms
+- Generate `.wav` and `.mid` files from custom music generation algorithms
 - Easily manipulating scales, chords, melodies, and harmonies
 - Built-in support for common scales and chords, including major, minor, pentatonic, blues, diminished, augmented, and more!
 - Music playback using [`rodio`](https://crates.io/crates/rodio) (with the `playback` feature enabled)
@@ -71,10 +71,17 @@ For web assembly support, enable the `web` feature:
 music-generation = { git="https://github.com/adam-mcdaniel/music-generation", features = ["web"] }
 ```
 
+For midi support, enable the `midi` feature:
+
+```toml
+[dependencies]
+music-generation = { git="https://github.com/adam-mcdaniel/music-generation", features = ["midi"] }
+```
+
 This crate is a library, but it also includes a binary that randomly generates songs using all the scales mentioned above, even though the library itself supports much more. To run the binary, use the following command:
 
 ```bash
-cargo run --release --features playback
+cargo run --release --features midi
 ```
 
 This will generate several `.wav` files in the project directory that you can listen to. I used this to generate the examples above!
