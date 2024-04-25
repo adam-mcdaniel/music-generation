@@ -71,7 +71,7 @@ For web assembly support, enable the `web` feature:
 music-generation = { git="https://github.com/adam-mcdaniel/music-generation", features = ["web"] }
 ```
 
-For midi support, enable the `midi` feature:
+For MIDI support, enable the `midi` feature:
 
 ```toml
 [dependencies]
