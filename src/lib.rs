@@ -265,6 +265,10 @@ impl Chord {
         Self(result)
     }
 
+    pub fn contains(&self, note: Note) -> bool {
+        self.notes().any(|n| n == note)
+    }
+
     pub fn major(note: NoteType, octave: u8) -> Chord {
         Chord::new(&[
             Note::new(note, octave),
@@ -616,7 +620,7 @@ pub struct Song {
     chords: Vec<TimedChord>,
     // Beats per minute.
     tempo: f32,
-
+    #[allow(dead_code)]
     loop_track: bool,
 }
 
@@ -744,7 +748,7 @@ impl Song {
         // Setup the sine wave.
         use hound::{WavSpec, WavWriter};
 
-        let sample_rate = 44_100 as f32;
+        let sample_rate = 88_100 as f32;
         let channels = 2;
         let spec = WavSpec {
             channels,
@@ -761,6 +765,85 @@ impl Song {
         writer.finalize()?;
 
         Ok(())
+    }
+
+    #[cfg(feature = "midi")]
+    pub fn save_midi(&self, midi_file_path: &Path) {
+
+        let ticks_per_beat = 480;
+        let mut smf = midly::Smf::new(midly::Header {
+            format: midly::Format::Parallel,
+            timing: midly::Timing::Metrical(midly::num::u15::new(ticks_per_beat as u16)),
+        });
+
+        // Send a meta event to set the tempo.
+        let tempo = (60_000_000.0 / self.tempo) as u32;
+        let event = midly::TrackEvent {
+            delta: midly::num::u28::new(0),
+            kind: midly::TrackEventKind::Meta(midly::MetaMessage::Tempo(midly::num::u24::new(tempo))),
+        };
+        if smf.tracks.len() <= 0 {
+            smf.tracks.push(Default::default());
+        }
+        smf.tracks[0].push(event);
+
+
+        let mut beat = 0.0;
+        let duration = 60.0 / self.tempo;
+        let mut last_chord: Option<Chord> = None;
+        loop {
+            let chord = self.get_notes_at_beat(beat);
+            match chord {
+                Some(chord) => {
+                    for (channel, note) in chord.notes().enumerate() {
+                        let note_in_last_chord = last_chord.map(|chord| chord.contains(note)).unwrap_or(false);
+                        if !note_in_last_chord {
+                            if smf.tracks.len() <= 0 {
+                                smf.tracks.push(Default::default());
+                            }
+    
+                            let event = midly::TrackEvent {
+                                delta: midly::num::u28::new(0),
+                                kind: midly::TrackEventKind::Midi {
+                                    channel: midly::num::u4::new(channel as u8),
+                                    message: midly::MidiMessage::NoteOn {
+                                        key: midly::num::u7::new(note.note.to_offset() as u8 + 12 * note.octave),
+                                        vel: midly::num::u7::new(ticks_per_beat as u8),
+                                    }
+                                }
+                            };
+                            smf.tracks[0].push(event);
+                        }
+                        
+                        if smf.tracks.len() <= 0 {
+                            smf.tracks.push(Default::default());
+                        }
+
+                        // Check if note is in next chord.
+                        let next_chord = self.get_notes_at_beat(beat + duration);
+                        let note_in_next_chord = next_chord.map(|chord| chord.contains(note)).unwrap_or(false);
+                        if !note_in_next_chord {
+                            let event = midly::TrackEvent {
+                                delta: midly::num::u28::new(ticks_per_beat as u32),
+                                kind: midly::TrackEventKind::Midi {
+                                    channel: midly::num::u4::new(channel as u8),
+                                    message: midly::MidiMessage::NoteOff {
+                                        key: midly::num::u7::new(note.note.to_offset() as u8 + 12 * note.octave),
+                                        vel: midly::num::u7::new(ticks_per_beat as u8),
+                                    }
+                                }
+                            };
+                            smf.tracks[0].push(event);
+                        }
+                    }
+                    beat += duration;
+                }
+                None => break,
+            }
+            last_chord = chord;
+        }
+
+        smf.save(midi_file_path).unwrap();
     }
 
     /// Generate a vector of frequency samples for the song using sine waves.

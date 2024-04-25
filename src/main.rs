@@ -188,6 +188,7 @@ fn generate_minor_blues(bpm: f32) -> Song {
 }
 
 /// Generate a song using the major pentatonic scale in the key of G!
+#[allow(dead_code)]
 fn generate_major_pentatonic_song(bpm: f32) -> Song {
     // For randomly sampling the G pentatonic iterator
     let mut rng = rand::thread_rng();
@@ -216,7 +217,7 @@ fn generate_major_pentatonic_song(bpm: f32) -> Song {
     // Each melody note is 1/8th of a beat
     let note_duration = 0.125;
     // Generate a melody for each beat in the song
-    for beat in 0..(chords.duration() as u32 * 8) {
+    for _beat in 0..(chords.duration() as u32 * 8) {
         // Create a random melody note with 1/8th of a beat duration
         let melody_note_name = scale.choose(&mut rng).unwrap();
         // Add the note to the melody on the 4th octave and with a duration
@@ -357,30 +358,8 @@ fn generate_augmented(bpm: f32) -> Song {
 }
 
 fn main() {
-    let bpm = 240.0;
+    let bpm = 360.0;
 
-
-    // The chords
-    // let chords = vec![
-    //     Chord::minor(G, 4).with_duration(8.0),
-    //     Chord::minor(D, 4).with_duration(8.0),
-    //     Chord::minor(C, 4).with_duration(8.0),
-    //     Chord::minor(G, 4).with_duration(8.0),
-    //     Chord::minor(C, 4).with_duration(8.0),
-    //     Chord::minor(G, 4).with_duration(8.0),
-    //     Chord::minor(D, 4).with_duration(8.0),
-    //     Chord::minor(C, 4).with_duration(8.0),
-    // ];
-
-
-    // for note in Scale::MajorBlues.notes_in_octave(G, 4).take(12) {
-    //     println!("{:?} = {}", note, note.frequency());
-    //     melody.push(note.with_duration(1.0));
-    // }
-    // let sample_generator = Song::generate_frequency_samples_sawtooth_wave;
-
-
-    // let sample_generator = Song::generate_frequency_samples_square_wave;
     let cross_fade = 0.01;
 
     let sample_generators: Vec<(Box<dyn Fn(&Song, f32, f32, u16) -> Vec<f32>>, &str)> = vec![
@@ -398,6 +377,13 @@ fn main() {
         (generate_minor_pentatonic(bpm), "minor_pentatonic"),
     ];
 
+    #[cfg(feature = "midi")]
+    for (song, name) in &songs {
+        let path = PathBuf::from(&format!("{}.mid", name));
+        song.save_midi(&path);
+        println!("Saved {}", path.display())
+    }
+
     for (sample_generator, wave_name) in sample_generators {
         for (song, song_name) in &songs {
             let song_name = format!("{}_{}", wave_name, song_name);
@@ -406,18 +392,4 @@ fn main() {
             println!("Saved {}", path.display())
         }
     }
-
-    // #[cfg(feature = "playback")]
-    // generate_major_blues(bpm).save(&Path::new("major_blues.wav"), sample_generator).unwrap();
-    // #[cfg(feature = "playback")]
-    // generate_minor_blues(bpm).save(&Path::new("minor_blues.wav"), sample_generator).unwrap();
-    // #[cfg(feature = "playback")]
-    // generate_major_pentatonic(bpm).save(&Path::new("major.wav"), sample_generator).unwrap();
-    // #[cfg(feature = "playback")]
-    // generate_minor_pentatonic(bpm).save(&Path::new("minor.wav"), sample_generator).unwrap();
-
-    // #[cfg(feature = "playback")]
-    // loop {
-    //     (generate_major_blues(bpm) + generate_major_pentatonic(bpm) + generate_minor_pentatonic(bpm) + generate_minor_blues(bpm)).play();
-    // }
 }
